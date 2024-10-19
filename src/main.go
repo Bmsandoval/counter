@@ -23,7 +23,11 @@ func main() {
 	mainthread.Init(EventLoop(finalHk))
 }
 
-func EventLoop(hks []int) func() {
+type EventStruct struct {
+	FileService FileService
+}
+
+func (e EventStruct) EventLoop(hks []int) func() {
 	return func() {
 		var modifiers []hotkey.Modifier
 		var keyboardKey hotkey.Key
