@@ -17,6 +17,9 @@ func main() {
 		finalHk = append(finalHk, MapKeyToID(key))
 	}
 
+	log.Printf("hotkey combo: %s\n", *hk)
+	log.Printf("final hk: %+v\n", finalHk)
+
 	mainthread.Init(EventLoop(finalHk))
 }
 
@@ -32,8 +35,9 @@ func EventLoop(hks []int) func() {
 			}
 		}
 
-		for kp := range GlobalHotkeyListener {
-			if kp == hotkey.New(modifiers, keyboardKey).String() {
+		hk := hotkey.New(modifiers, keyboardKey)
+		for kp := range GlobalHotkeyListener(hk) {
+			if kp == hk.String() {
 				log.Printf("hotkey: %s is down\n", kp)
 				err := ModifyCounter(1)
 				if err != nil {
