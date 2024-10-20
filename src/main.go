@@ -19,9 +19,7 @@ func main() {
 		finalHk = append(finalHk, utils.MapKeyToID(key))
 	}
 
-	svcBundle := services.Bundle{
-		CounterService: services.NewCounterService(),
-	}
+	svcBundle := services.NewBundle()
 
 	eventHandler := EventStruct{Services: svcBundle}
 	mainthread.Init(eventHandler.EventLoop(finalHk))
@@ -33,6 +31,7 @@ type EventStruct struct {
 
 func (s EventStruct) EventLoop(hks []int) func() {
 	return func() {
+		svc := s.Services.EventListenerService
 		var modifiers []hotkey.Modifier
 		var keyboardKey hotkey.Key
 		for _, val := range hks {
@@ -44,7 +43,7 @@ func (s EventStruct) EventLoop(hks []int) func() {
 		}
 
 		hk := hotkey.New(modifiers, keyboardKey)
-		for kp := range GlobalHotkeyListener(hk) {
+		for kp := range svc.ListenForHotkeyEvents([]*hotkey.Hotkey{hk}) {
 			if kp == hk.String() {
 				log.Printf("hotkey: %s is down\n", kp)
 				err := s.ModifyCounter(1)

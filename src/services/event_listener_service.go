@@ -1,18 +1,22 @@
-package main
+package services
 
 import (
 	"golang.design/x/hotkey"
 	"log"
 )
 
-// GlobalHotkeyListener listens for any hotkey
-func GlobalHotkeyListener(hk *hotkey.Hotkey) func(yield func(string) bool) {
-	return func(yield func(string) bool) {
-		var hotkeys []*hotkey.Hotkey
-		// TODO : allow creating custom hotkeys
-		hotkeys = append(hotkeys, hk)
-		//hotkeys = append(hotkeys, hotkey.New(nil, hotkey.KeyEscape))
+type EventListenerService interface {
+	ListenForHotkeyEvents(hotkeys []*hotkey.Hotkey) func(yield func(string) bool)
+}
 
+type eventListenerServiceImpl struct{}
+
+func NewEventListenerService() EventListenerService {
+	return &eventListenerServiceImpl{}
+}
+
+func (s eventListenerServiceImpl) ListenForHotkeyEvents(hotkeys []*hotkey.Hotkey) func(yield func(string) bool) {
+	return func(yield func(string) bool) {
 		for _, hk := range hotkeys {
 			err := hk.Register()
 			if err != nil {

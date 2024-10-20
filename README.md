@@ -10,12 +10,10 @@ Counter (badly named) will be a golang-based successor to "DCSB", but focused mo
 
 ### **Active Goal(s)**
 
-* [ ]  Unit Tests
-  * [ ]  Enable dependency injection
 
 ### V0.2:
 
-* [ ]  tests (you win this time DevNinYa)
+* [X]  tests (you win this time DevNinYa)
 * [ ]  user defined file location
 * [ ]  config file to store settings
 * [ ]  user defined hotkey via keyboard input
@@ -55,3 +53,14 @@ ensure golang is in your PATH
 clone this repo
 run go mod vendor within the repo
 go run source/main.go
+
+## Workflows:
+assumption - cli based app
+* create counter
+* register hotkey
+
+## UserFlow:
+* runs app (optionally with flag defining config file location)
+* user prompted with option to create counter (among other options)
+  * user to provide counter file location
+  * user to input hotkey for increments

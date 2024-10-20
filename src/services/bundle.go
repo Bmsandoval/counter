@@ -1,9 +1,15 @@
 package services
 
 type Bundle struct {
-	CounterService CounterService
+	InputService         InputService
+	CounterService       CounterService
+	EventListenerService EventListenerService
 }
 
-func NewBundle(counterService CounterService) Bundle {
-	return Bundle{CounterService: counterService}
+func NewBundle() Bundle {
+	return Bundle{
+		InputService:         NewInputService(),
+		CounterService:       NewCounterService(),
+		EventListenerService: NewEventListenerService(),
+	}
 }

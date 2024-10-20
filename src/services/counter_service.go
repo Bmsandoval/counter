@@ -3,8 +3,8 @@ package services
 import (
 	"errors"
 	"fmt"
-	"github.com/bmsandoval/counter/pkg"
 	"os"
+	"os/user"
 	"path/filepath"
 )
 
@@ -41,7 +41,7 @@ func (s counterServiceImpl) SetCounter(filePath string, counter int) error {
 	// Write the updated counter back to the file
 	err := os.WriteFile(filePath, []byte(fmt.Sprintf("%d", counter)), 0644)
 	if err != nil {
-		return errors.Join(err, errors.New("failed to write counter"))
+		return errors.Join(err, errors.New("unable to write counter"))
 	}
 	return nil
 }
@@ -50,11 +50,11 @@ func (s counterServiceImpl) SetCounter(filePath string, counter int) error {
 // defaults to '~/counter.txt'
 func (s counterServiceImpl) GetCounterPath(filePath, fileName string) (string, error) {
 	if len(filePath) < 1 {
-		home, err := pkg.HomeDir()
+		usr, err := user.Current()
 		if err != nil {
-			return "", err
+			return "", errors.Join(err, errors.New("error retrieving home directory: unable to get current user"))
 		}
-		filePath = home
+		filePath = usr.HomeDir
 	}
 
 	if len(fileName) < 1 {
