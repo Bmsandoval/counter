@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"github.com/bmsandoval/counter/src/services"
+	"github.com/bmsandoval/counter/src/utils"
 	"golang.design/x/hotkey"
 	"golang.design/x/hotkey/mainthread"
 	"log"
@@ -15,23 +16,27 @@ func main() {
 
 	var finalHk []int
 	for _, key := range strings.Split(*hk, "+") {
-		finalHk = append(finalHk, MapKeyToID(key))
+		finalHk = append(finalHk, utils.MapKeyToID(key))
 	}
 
-	eventHandler := EventStruct{}
+	svcBundle := services.Bundle{
+		CounterService: services.NewCounterService(),
+	}
+
+	eventHandler := EventStruct{Services: svcBundle}
 	mainthread.Init(eventHandler.EventLoop(finalHk))
 }
 
 type EventStruct struct {
-	FileService services.FileService
+	Services services.Bundle
 }
 
-func (e EventStruct) EventLoop(hks []int) func() {
+func (s EventStruct) EventLoop(hks []int) func() {
 	return func() {
 		var modifiers []hotkey.Modifier
 		var keyboardKey hotkey.Key
 		for _, val := range hks {
-			if _, ok := ModifierKeyMap[val]; ok {
+			if _, ok := utils.ModifierKeyMap[val]; ok {
 				modifiers = append(modifiers, hotkey.Modifier(val))
 			} else {
 				keyboardKey = hotkey.Key(val)
@@ -42,7 +47,7 @@ func (e EventStruct) EventLoop(hks []int) func() {
 		for kp := range GlobalHotkeyListener(hk) {
 			if kp == hk.String() {
 				log.Printf("hotkey: %s is down\n", kp)
-				err := ModifyCounter(1)
+				err := s.ModifyCounter(1)
 				if err != nil {
 					log.Fatalf("failed to modify counter: %v\n", err)
 					return

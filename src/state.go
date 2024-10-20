@@ -2,46 +2,35 @@ package main
 
 import (
 	"fmt"
-	"github.com/bmsandoval/counter/pkg"
-	"os"
-	"path/filepath"
+	"log"
 )
 
 // ModifyCounter modifies the counter (increment or decrement)
-func ModifyCounter(delta int) error {
-	filePath, err := GetCounterFilePath()
+func (s EventStruct) ModifyCounter(delta int) error {
+	svc := s.Services.CounterService
+
+	// TODO : allow overriding defaults based on config file
+	filePath, err := svc.GetCounterPath("", "")
 	if err != nil {
 		fmt.Println("Error determining file path:", err)
 		return err
 	}
 
-	// Convert the content to an integer
 	var counter int
-	_, err = fmt.Sscanf(string(file), "%d", &counter)
+	counter, err = svc.GetCounter(filePath)
 	if err != nil {
-		fmt.Printf("failed to parse file, assuming zero. See error: %s", err.Error())
-		counter = 0
+		fmt.Printf("error getting counter, assuming zero - error: %s", err.Error())
 	}
 
 	// Modify the counter
 	counter += delta
 
-	// Write the updated counter back to the file
-	err = os.WriteFile(filePath, []byte(fmt.Sprintf("%d", counter)), 0644)
+	err = svc.SetCounter(filePath, counter)
 	if err != nil {
-		fmt.Println("Error writing file:", err)
-		return err
+		log.Printf("error setting counter - error: %s", err.Error())
+	} else {
+		fmt.Printf("Counter updated to: %d\n", counter)
 	}
-	fmt.Printf("Counter updated to: %d\n", counter)
-	return nil
-}
 
-// GetCounterFilePath gets the path of the counter file
-func GetCounterFilePath() (string, error) {
-	// TODO : remove hardcoded file path
-	home, err := pkg.HomeDir()
-	if err != nil {
-		return "", err
-	}
-	return filepath.Join(home, "counter.txt"), nil
+	return nil
 }

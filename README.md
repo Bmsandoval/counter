@@ -15,9 +15,10 @@ Counter (badly named) will be a golang-based successor to "DCSB", but focused mo
 
 ### V0.2:
 
-* [ ]  user defined hotkey via keyboard input
-* [ ]  user defined file location
 * [ ]  tests (you win this time DevNinYa)
+* [ ]  user defined file location
+* [ ]  config file to store settings
+* [ ]  user defined hotkey via keyboard input
 
 ## Future
 
