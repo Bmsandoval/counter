@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"github.com/bmsandoval/counter/src/services"
 	"golang.design/x/hotkey"
 	"golang.design/x/hotkey/mainthread"
 	"log"
@@ -17,14 +18,12 @@ func main() {
 		finalHk = append(finalHk, MapKeyToID(key))
 	}
 
-	log.Printf("hotkey combo: %s\n", *hk)
-	log.Printf("final hk: %+v\n", finalHk)
-
-	mainthread.Init(EventLoop(finalHk))
+	eventHandler := EventStruct{}
+	mainthread.Init(eventHandler.EventLoop(finalHk))
 }
 
 type EventStruct struct {
-	FileService FileService
+	FileService services.FileService
 }
 
 func (e EventStruct) EventLoop(hks []int) func() {

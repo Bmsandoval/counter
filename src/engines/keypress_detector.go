@@ -1,4 +1,4 @@
-package main
+package engines
 
 import (
 	"golang.design/x/hotkey"

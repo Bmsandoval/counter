@@ -15,13 +15,6 @@ func ModifyCounter(delta int) error {
 		return err
 	}
 
-	// Open and read the current value from the file
-	file, err := os.ReadFile(filePath)
-	if err != nil {
-		fmt.Printf("failed to read file, creating. See error: %s", err.Error())
-		err = nil
-	}
-
 	// Convert the content to an integer
 	var counter int
 	_, err = fmt.Sscanf(string(file), "%d", &counter)
