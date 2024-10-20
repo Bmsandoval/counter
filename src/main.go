@@ -11,7 +11,8 @@ import (
 )
 
 func main() {
-	hk := flag.String("hotkey", "ctrl+shift+s", "increment hotkey")
+	hk := flag.String("hotkey", "ctrl+shift+s", "increment hotkey. Defaults to ctrl+shift+s")
+	cfgFileLoc := flag.String("config", "~/.counterconfig.json", "path to config file. Defaults to ~/.counterconfig.json")
 	flag.Parse()
 
 	var finalHk []int
@@ -21,12 +22,13 @@ func main() {
 
 	svcBundle := services.NewBundle()
 
-	eventHandler := EventStruct{Services: svcBundle}
+	eventHandler := EventStruct{Services: svcBundle, ConfigFileLoc: *cfgFileLoc}
 	mainthread.Init(eventHandler.EventLoop(finalHk))
 }
 
 type EventStruct struct {
-	Services services.Bundle
+	Services      services.Bundle
+	ConfigFileLoc string
 }
 
 func (s EventStruct) EventLoop(hks []int) func() {

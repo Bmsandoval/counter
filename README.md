@@ -10,6 +10,8 @@ Counter (badly named) will be a golang-based successor to "DCSB", but focused mo
 
 ### **Active Goal(s)**
 
+* [ ]  user defined file location (for counters)
+* [ ]  config file to store settings
 
 ### V0.2:
 
@@ -55,11 +57,14 @@ run go mod vendor within the repo
 go run source/main.go
 
 ## Workflows:
+
 assumption - cli based app
+
 * create counter
 * register hotkey
 
 ## UserFlow:
+
 * runs app (optionally with flag defining config file location)
 * user prompted with option to create counter (among other options)
   * user to provide counter file location

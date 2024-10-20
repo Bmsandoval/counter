@@ -62,16 +62,16 @@ func (mr *MockCounterServiceMockRecorder) SetCounter(filePath, counter interface
 }
 
 // GetCounterPath mocks base method
-func (m *MockCounterService) GetCounterPath(filePath, fileName string) (string, error) {
+func (m *MockCounterService) GetCounterPath(filePath string) (string, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "GetCounterPath", filePath, fileName)
+	ret := m.ctrl.Call(m, "GetCounterPath", filePath)
 	ret0, _ := ret[0].(string)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
 // GetCounterPath indicates an expected call of GetCounterPath
-func (mr *MockCounterServiceMockRecorder) GetCounterPath(filePath, fileName interface{}) *gomock.Call {
+func (mr *MockCounterServiceMockRecorder) GetCounterPath(filePath interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCounterPath", reflect.TypeOf((*MockCounterService)(nil).GetCounterPath), filePath, fileName)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetCounterPath", reflect.TypeOf((*MockCounterService)(nil).GetCounterPath), filePath)
 }

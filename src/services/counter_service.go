@@ -11,7 +11,7 @@ import (
 type CounterService interface {
 	GetCounter(filePath string) (int, error)
 	SetCounter(filePath string, counter int) error
-	GetCounterPath(filePath, fileName string) (string, error)
+	GetCounterPath(filePath string) (string, error)
 }
 
 type counterServiceImpl struct{}
@@ -48,18 +48,13 @@ func (s counterServiceImpl) SetCounter(filePath string, counter int) error {
 
 // GetCounterPath gets the path of the counter file
 // defaults to '~/counter.txt'
-func (s counterServiceImpl) GetCounterPath(filePath, fileName string) (string, error) {
+func (s counterServiceImpl) GetCounterPath(filePath string) (string, error) {
 	if len(filePath) < 1 {
 		usr, err := user.Current()
 		if err != nil {
 			return "", errors.Join(err, errors.New("error retrieving home directory: unable to get current user"))
 		}
-		filePath = usr.HomeDir
+		filePath = filepath.Join(usr.HomeDir, "counter.txt")
 	}
-
-	if len(fileName) < 1 {
-		fileName = "counter.txt"
-	}
-
-	return filepath.Join(filePath, fileName), nil
+	return filePath, nil
 }
