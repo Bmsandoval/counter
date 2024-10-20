@@ -11,6 +11,7 @@ import (
 // CreateNewFile creates a new file through a save dialog
 // initializes it with a counter value of 0, and handles errors.
 func CreateNewFile(window fyne.Window) {
+	//rChan := make(chan string, 1)
 	fileSaveDialog := dialog.NewFileSave(
 		func(writer fyne.URIWriteCloser, err error) {
 			if err != nil {

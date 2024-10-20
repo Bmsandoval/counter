@@ -11,13 +11,13 @@ Counter (badly named) will be a golang-based successor to "DCSB", but focused mo
 ### **Active Goal(s)**
 
 * [ ]  user defined file location (for counters)
-* [ ]  config file to store settings
+* [X]  config file to store settings
 
 ### V0.2:
 
 * [X]  tests (you win this time DevNinYa)
 * [ ]  user defined file location
-* [ ]  config file to store settings
+* [X]  config file to store settings
 * [ ]  user defined hotkey via keyboard input
 
 ## Future
@@ -39,6 +39,7 @@ Counter (badly named) will be a golang-based successor to "DCSB", but focused mo
 ## Backlog
 
 * [ ]  GUI
+* [ ]  Timer function
 
 ## Version History
 

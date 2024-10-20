@@ -2,6 +2,7 @@ package services
 
 import (
 	"encoding/json"
+	"errors"
 	"github.com/bmsandoval/counter/src/types"
 	"os"
 	"os/user"
@@ -24,11 +25,11 @@ func NewConfigService() ConfigService {
 func (s configServiceImpl) SaveConfig(config types.Config) error {
 	usr, err := user.Current()
 	if err != nil {
-		return err
+		errors.Join(err, errors.New("error retrieving home directory: unable to get current user"))
 	}
 	home := usr.HomeDir
 
-	configPath := filepath.Join(home, ".counterconfig.json")
+	configPath := filepath.Join(home, types.DefaultConfigFileName)
 	data, err := json.MarshalIndent(config, "", "  ")
 	if err != nil {
 		return err
@@ -47,21 +48,18 @@ func (s configServiceImpl) LoadConfig(configFileLoc string) (types.Config, error
 		home := usr.HomeDir
 
 		// TODO : fix hardcoded config file
-		configFileLoc = filepath.Join(home, ".fileconfigconfig.json")
+		configFileLoc = filepath.Join(home, types.DefaultConfigFileName)
 	}
 
 	// Check if the config file exists
 	var config types.Config
-	if _, err := os.Stat(configFileLoc); os.IsNotExist(err) {
+	file, err := os.ReadFile(configFileLoc)
+	if os.IsNotExist(err) {
 		// Set default key combinations
 		config = types.Config{IncrementHotkey: "ctrl+shift+p"}
 		return config, s.SaveConfig(config)
 	}
 
-	file, err := os.ReadFile(configFileLoc)
-	if err != nil {
-		return config, err
-	}
 	err = json.Unmarshal(file, &config)
 	return config, err
 }
