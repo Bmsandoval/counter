@@ -10,14 +10,14 @@ Counter (badly named) will be a golang-based successor to "DCSB", but focused mo
 
 ### **Active Goal(s)**
 
-* [ ]  user defined file location (for counters)
-* [X]  config file to store settings
+* [ ]  POC wails FE
 
 ### V0.2:
 
+* [ ]  Basic frontend (usability, not visibility)
 * [X]  tests (you win this time DevNinYa)
-* [ ]  user defined file location
 * [X]  config file to store settings
+* [ ]  user defined counter file location
 * [ ]  user defined hotkey via keyboard input
 
 ## Future
