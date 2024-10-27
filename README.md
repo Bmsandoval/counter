@@ -1,55 +1,40 @@
-# App
+# README
 
-Counter (badly named) will be a golang-based successor to "DCSB", but focused more on the counter (death or otherwise)
+## About
 
-## Plan
+This template comes with Vite, React, TypeScript, TailwindCSS and shadcn/ui.
 
-### Problem:
+Built with `Wails v2.5.1` and [shadcn's CLI](https://ui.shadcn.com/docs/cli)
 
-* DCSB allows displaying a running count on stream, but doesn't work on MacOS
+### Using the Template
+```console
+wails init -n project-name -t https://github.com/Mahcks/wails-vite-react-tailwind-shadcnui-ts
+```
 
-### **Active Goal(s)**
+```console
+cd frontend
+```
 
-* [ ]  Enable dependency injection
+```console
+npm install
+```
 
-### V0.2:
+### Installing Components
+To install components, use shadcn's CLI tool to install
 
-* [X]  click a global hotkey and increment an integer stored in a file
-* [ ]  user defined hotkey
-  * [X]  poc via cli
-  * [ ]  read keyboard input
-* [ ]  user defined file location
-* [ ]  tests (you win this time DevNinYa)
+More info here: https://ui.shadcn.com/docs/cli#add
 
-## Future
+Example:
+```console
+npx shadcn-ui@latest add [component]
+```
 
-### v1.0:
+## Live Development
 
-* [ ]  GUI
+To run in live development mode, run `wails dev` in the project directory. In another terminal, go into the `frontend`
+directory and run `npm run dev`. The frontend dev server will run on http://localhost:34115. Connect to this in your
+browser and connect to your application.
 
-### v1.1:
+## Building
 
-* [ ]  Multiple hotkeys - allow increment/decrement
-* [ ]  Multiple files - allow tracking multiple counters
-  * [ ]  allow grouping counters hoping to track "Today" and "AllTime" with a single click
-
-### v2.0:
-
-* [ ]  Enable Soundboard
-  * [ ]  hotkey triggers sound to play (research golang packages for cross-platform, or do bash call as DevNinYa suggested)
-
-## Version History
-
-### v0.1
-
-* Can click a global hotkey to increment an integer stored in a file.
-* Hotkey can be passed in via cli flag
-
-## Usage:
-
-TODO : fill this in
-install and setup golang
-ensure golang is in your PATH
-clone this repo
-run go mod vendor within the repo
-go run source/main.go
+To build a redistributable, production mode package, use `wails build`.
